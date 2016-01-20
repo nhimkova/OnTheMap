@@ -37,15 +37,21 @@ class LoginViewController: UIViewController {
 
 
     @IBAction func loginButtonTouch(sender: AnyObject) {
-        
+        UdacityClient.sharedInstance().authenticateWithViewController(self) { (success, errorString) in
+            if success {
+                self.completeLogin()
+            } else {
+                self.displayErrorMessage(errorString)
+            }
+        }
     }
     
     func completeLogin() {
-        
+        //TODO: complete login
     }
     
-    func displayErrorMessage() {
-        
+    func displayErrorMessage(errorString: String?) {
+       //TODO: display error message
     }
     
     func configureUI() {

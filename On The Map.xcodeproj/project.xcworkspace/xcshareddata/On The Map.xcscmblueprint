@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "7134DE256799536CD0E8E892E7C3D7E4AD6C7B51",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "A6E9FB7760371A708EDED98AB769CEF2FFC0F1F7" : 0,
+    "7134DE256799536CD0E8E892E7C3D7E4AD6C7B51" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "57A2B46A-A2F7-4448-B229-67107DECBFC2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "A6E9FB7760371A708EDED98AB769CEF2FFC0F1F7" : "",
+    "7134DE256799536CD0E8E892E7C3D7E4AD6C7B51" : "On%20The%20Map\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "On The Map",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "On The Map.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/nhimkova\/OnTheMap.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7134DE256799536CD0E8E892E7C3D7E4AD6C7B51"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/nhimkova\/Uda_iOS_PitchPerfect.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A6E9FB7760371A708EDED98AB769CEF2FFC0F1F7"
+    }
+  ]
+}
