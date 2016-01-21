@@ -13,7 +13,6 @@ class LocationTableViewController: UITableViewController {
     
     var students = [ParseStudent]()
     
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -33,9 +32,7 @@ class LocationTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        let n = self.students.count
-        print("Cell count: \(n)")
-        return n
+        return self.students.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -52,10 +49,18 @@ class LocationTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        /* Push the movie detail view */
-        //let controller = self.storyboard!.instantiateViewControllerWithIdentifier("MovieDetailViewController") as! MovieDetailViewController
-        //controller.movie = movies[indexPath.row]
+        /* Push the web view */
+        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+        controller.student = students[indexPath.row]
         //self.navigationController!.pushViewController(controller, animated: true)
+        
+        let webNavigationController = UINavigationController()
+        webNavigationController.pushViewController(controller, animated: false)
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.presentViewController(webNavigationController, animated: true, completion: nil)
+        })
+        
     }
     
     

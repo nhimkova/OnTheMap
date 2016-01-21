@@ -14,6 +14,7 @@
 		08B0716D1C50ED0B002D8C23 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B0716C1C50ED0B002D8C23 /* ParseConstants.swift */; settings = {ASSET_TAGS = (); }; };
 		08B0716F1C50ED1B002D8C23 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B0716E1C50ED1B002D8C23 /* ParseConvenience.swift */; settings = {ASSET_TAGS = (); }; };
 		08B071711C50F389002D8C23 /* ParseStudent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B071701C50F389002D8C23 /* ParseStudent.swift */; settings = {ASSET_TAGS = (); }; };
+		08B071751C512026002D8C23 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B071741C512026002D8C23 /* WebViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		08CF9A251C4F8F1900509669 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CF9A241C4F8F1900509669 /* AppDelegate.swift */; };
 		08CF9A271C4F8F1900509669 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CF9A261C4F8F1900509669 /* LoginViewController.swift */; };
 		08CF9A2A1C4F8F1900509669 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08CF9A281C4F8F1900509669 /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		08B0716C1C50ED0B002D8C23 /* ParseConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		08B0716E1C50ED1B002D8C23 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConvenience.swift; sourceTree = "<group>"; };
 		08B071701C50F389002D8C23 /* ParseStudent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseStudent.swift; sourceTree = "<group>"; };
+		08B071741C512026002D8C23 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		08CF9A211C4F8F1900509669 /* On The Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On The Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08CF9A241C4F8F1900509669 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08CF9A261C4F8F1900509669 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				08CF9A261C4F8F1900509669 /* LoginViewController.swift */,
 				08CF9A541C4F9DF500509669 /* MapViewController.swift */,
 				08CF9A561C4F9E0B00509669 /* LocationTableViewController.swift */,
+				08B071741C512026002D8C23 /* WebViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				08CF9A251C4F8F1900509669 /* AppDelegate.swift in Sources */,
 				08B0716F1C50ED1B002D8C23 /* ParseConvenience.swift in Sources */,
 				08B0716D1C50ED0B002D8C23 /* ParseConstants.swift in Sources */,
+				08B071751C512026002D8C23 /* WebViewController.swift in Sources */,
 				08B071691C4FC974002D8C23 /* UdacityConvenience.swift in Sources */,
 				08B0716B1C50ECFD002D8C23 /* ParseClient.swift in Sources */,
 				08B071671C4FC2A7002D8C23 /* UdacityConstants.swift in Sources */,
