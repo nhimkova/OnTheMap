@@ -37,17 +37,28 @@ class LoginViewController: UIViewController {
 
 
     @IBAction func loginButtonTouch(sender: AnyObject) {
-        UdacityClient.sharedInstance().authenticateWithViewController(self) { (success, errorString) in
-            if success {
-                self.completeLogin()
-            } else {
-                self.displayErrorMessage(errorString)
+        if emailTextField.text!.isEmpty {
+            errorMessageLabel.text = "Username Empty."
+        } else if passwordTextField.text!.isEmpty {
+            errorMessageLabel.text = "Password Empty."
+        } else {
+            UdacityClient.sharedInstance().authenticateWithViewController(emailTextField.text!, password: passwordTextField.text!) { (success, errorString) in
+                if success {
+                    self.completeLogin()
+                } else {
+                    self.displayErrorMessage(errorString)
+                }
             }
         }
     }
     
     func completeLogin() {
-        //TODO: complete login
+        dispatch_async(dispatch_get_main_queue(), {
+            self.errorMessageLabel.text = ""
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("ManagerNavigationController") as! UINavigationController
+            self.presentViewController(controller, animated: true, completion: nil)
+        })
+
     }
     
     func displayErrorMessage(errorString: String?) {

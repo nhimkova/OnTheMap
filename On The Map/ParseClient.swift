@@ -1,27 +1,23 @@
 //
-//  UdacityClient.swift
+//  ParseClient.swift
 //  On The Map
 //
-//  Created by Quynh Tran on 20/01/2016.
+//  Created by Quynh Tran on 21/01/2016.
 //  Copyright © 2016 Quynh. All rights reserved.
 //
 
 import Foundation
 
-class UdacityClient: NSObject {
+class ParseClient: NSObject {
     
     /* Shared session */
     var session: NSURLSession
-    
-    /* Configuration object */
-    //var config = UdacityConfig()
     
     /* Authentication state */
     var sessionID : String? = nil
     var userID : String? = nil
     
     // MARK: Initializers
-    
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
@@ -39,10 +35,10 @@ class UdacityClient: NSObject {
     
     // MARK: Shared Instance
     
-    class func sharedInstance() -> UdacityClient {
+    class func sharedInstance() -> ParseClient {
         
         struct Singleton {
-            static var sharedInstance = UdacityClient()
+            static var sharedInstance = ParseClient()
         }
         
         return Singleton.sharedInstance
