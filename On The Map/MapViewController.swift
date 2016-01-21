@@ -37,7 +37,12 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
             if success {
                 self.students = ParseStudent.studentsFromResults(data!)
                 
-                //2. create annotations
+                //2. Save as global variable
+                let object = UIApplication.sharedApplication().delegate
+                let appDelegate = object as! AppDelegate
+                appDelegate.students = self.students
+                
+                //3. create annotations
                 for student in self.students {
                     
                     let annotation = MKPointAnnotation()
