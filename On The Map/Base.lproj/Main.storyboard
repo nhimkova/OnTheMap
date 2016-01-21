@@ -317,7 +317,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" id="5Z7-vV-v4y"/>
+                    <tabBarItem key="tabBarItem" title="" systemItem="favorites" id="5Z7-vV-v4y"/>
                     <connections>
                         <outlet property="mapView" destination="lKW-fF-HnU" id="Qsm-tD-U68"/>
                     </connections>
@@ -370,7 +370,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="List" id="kDN-V9-osG"/>
+                    <tabBarItem key="tabBarItem" systemItem="more" id="kDN-V9-osG"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bbw-Li-VER" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

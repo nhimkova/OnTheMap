@@ -95,15 +95,31 @@
 		08B071651C4FA992002D8C23 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				08B071721C510992002D8C23 /* Udacity */,
+				08B071731C5109A4002D8C23 /* Parse */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		08B071721C510992002D8C23 /* Udacity */ = {
+			isa = PBXGroup;
+			children = (
 				08B071631C4FA986002D8C23 /* UdacityClient.swift */,
 				08B071661C4FC2A7002D8C23 /* UdacityConstants.swift */,
 				08B071681C4FC974002D8C23 /* UdacityConvenience.swift */,
+			);
+			name = Udacity;
+			sourceTree = "<group>";
+		};
+		08B071731C5109A4002D8C23 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
 				08B0716A1C50ECFD002D8C23 /* ParseClient.swift */,
 				08B0716C1C50ED0B002D8C23 /* ParseConstants.swift */,
 				08B0716E1C50ED1B002D8C23 /* ParseConvenience.swift */,
 				08B071701C50F389002D8C23 /* ParseStudent.swift */,
 			);
-			name = Model;
+			name = Parse;
 			sourceTree = "<group>";
 		};
 		08CF9A181C4F8F1900509669 = {

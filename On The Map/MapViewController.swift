@@ -13,6 +13,10 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    var students = [ParseStudent]()
+    var annotations = [MKPointAnnotation]()
+    var session: NSURLSession!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,24 +24,37 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
             latitude: 51.50007773,
             longitude: -0.1246402
         )
-        // 2
+        
         let span = MKCoordinateSpanMake(0.05, 0.05)
         let region = MKCoordinateRegion(center: location, span: span)
         mapView.setRegion(region, animated: true)
         
-        //3
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = location
-        annotation.title = "Big Ben"
-        annotation.subtitle = "London"
-        mapView.addAnnotation(annotation)
-    
+        //1. load students from parse API
+        session = NSURLSession.sharedSession()
+        
+        ParseClient.sharedInstance().downloadStudentLocations() { (success, data, errorString) in
+            
+            if success {
+                self.students = ParseStudent.studentsFromResults(data!)
+                
+                //2. create annotations
+                for student in self.students {
+                    
+                    let annotation = MKPointAnnotation()
+                    let lat = CLLocationDegrees(student.latitude!)
+                    let long = CLLocationDegrees(student.longitude!)
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                    
+                    annotation.title = student.firstName + " " + student.lastName
+                    annotation.subtitle = student.url
+                    self.mapView.addAnnotation(annotation)
+                }
+
+            } else {
+                print(errorString)
+            }
+        }
+        
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
 }

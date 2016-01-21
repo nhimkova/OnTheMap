@@ -14,4 +14,24 @@ struct ParseStudent {
     var latitude : Float? = nil
     var longitude : Float? = nil
     
+    init(dictionary: [String : AnyObject]) {
+        
+        firstName = dictionary[ParseClient.JSONResponseKeys.FirstName] as! String
+        lastName = dictionary[ParseClient.JSONResponseKeys.LastName] as! String
+        url = dictionary[ParseClient.JSONResponseKeys.MediaURL] as! String
+        latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as? Float
+        longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] as? Float
+    
+    }
+    
+    static func studentsFromResults(results: [[String : AnyObject]]) -> [ParseStudent] {
+        var students = [ParseStudent]()
+        
+        for result in results {
+            students.append(ParseStudent(dictionary: result))
+        }
+        
+        return students
+    }
+
 }

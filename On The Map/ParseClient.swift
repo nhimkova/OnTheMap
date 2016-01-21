@@ -13,9 +13,8 @@ class ParseClient: NSObject {
     /* Shared session */
     var session: NSURLSession
     
-    /* Authentication state */
-    var sessionID : String? = nil
-    var userID : String? = nil
+    /* Student data stored as ParseStudent objects */
+    var students = [ParseStudent]()
     
     // MARK: Initializers
     override init() {

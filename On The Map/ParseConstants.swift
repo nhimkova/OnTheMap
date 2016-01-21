@@ -6,31 +6,33 @@
 //  Copyright © 2016 Quynh. All rights reserved.
 //
 
-import Foundation
-
 extension ParseClient {
     
     struct Constants {
         
-        static let BaseURL : String = " http://www.udacity.com/api/"
-        static let BaseURLSecure : String = "https://www.udacity.com/api/"
+        static let apiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+        static let appID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
+        static let BaseURLSecure = "https://api.parse.com/1/classes/StudentLocation"
     }
     
-    struct Methods {
+    struct HTTPHeaderField {
         
-        static let Session = "session"
-        static let Users = "users"
+        static let apiHeader = "X-Parse-REST-API-Key"
+        static let appIDHeader = "X-Parse-Application-Id"
     }
     
     struct JSONResponseKeys {
         
-        //Session
-        static let Session = "session"
-        static let SessionID = "id"
-        
-        //User ID
-        static let Account = "account"
-        static let UserID = "key"
+        static let CreatedAt = "createdAt"
+        static let FirstName = "firstName"
+        static let LastName = "lastName"
+        static let Latitude = "latitude"
+        static let Longitude = "longitude"
+        static let MapString = "mapString"
+        static let MediaURL = "mediaURL"
+        static let ObjectId = "objectId"
+        static let UniqueKey = "uniqueKey"
+        static let UpdatedAt = "updatedAt"
         
     }
     
