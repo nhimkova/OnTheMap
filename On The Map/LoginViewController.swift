@@ -55,6 +55,21 @@ class LoginViewController: UIViewController {
     func completeLogin() {
         dispatch_async(dispatch_get_main_queue(), {
             self.errorMessageLabel.text = ""
+            
+            //get user info and save it in client
+            let userID = UdacityClient.sharedInstance().userID
+            UdacityClient.sharedInstance().getUserInfo(userID) { (success, lastName, nickName, errorString) in
+                if success {
+                    UdacityClient.sharedInstance().lastName = lastName
+                    UdacityClient.sharedInstance().firstName = nickName
+                } else {
+                    // Default to this name if no user info
+                    UdacityClient.sharedInstance().lastName = "Anonymous"
+                    UdacityClient.sharedInstance().firstName = "John"
+                    print(errorString)
+                }
+            }
+            
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("ManagerNavigationController") as! UINavigationController
             self.presentViewController(controller, animated: true, completion: nil)
         })
@@ -62,7 +77,9 @@ class LoginViewController: UIViewController {
     }
     
     func displayErrorMessage(errorString: String?) {
-       self.errorMessageLabel.text = "Failed to log in"
+        
+        print(errorString)
+        self.errorMessageLabel.text = "Failed to log in"
     }
     
     func configureUI() {

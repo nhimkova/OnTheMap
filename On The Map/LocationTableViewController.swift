@@ -51,12 +51,12 @@ class LocationTableViewController: UITableViewController {
         
         let app = UIApplication.sharedApplication()
         let toOpen = students[indexPath.row].url
-        app.openURL(NSURL(string: toOpen)!)
-        
-        
+        if let url = NSURL(string: toOpen) {
+            app.openURL(url)
+        } else {
+            //display error
+        }
     }
-    
-    
     
 }
 

@@ -17,6 +17,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
     var annotations = [MKPointAnnotation]()
     var session: NSURLSession!
     
+    var theUser : ParseStudent!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,7 +36,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         mapView.setRegion(region, animated: true)
         
         reloadStudentLocation()
-        //reloadAnnotations()
+                
         
     }
     
@@ -125,14 +127,24 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         /* Push the web view */
         let controller = self.storyboard!.instantiateViewControllerWithIdentifier("PostInfoViewController") as! PostInfoViewController
         
+        // Prepare ParseStudent object
+        let dictionary : [String: AnyObject?] = [
+            ParseClient.JSONResponseKeys.FirstName : UdacityClient.sharedInstance().firstName,
+            ParseClient.JSONResponseKeys.LastName : UdacityClient.sharedInstance().lastName,
+            ParseClient.JSONResponseKeys.MediaURL : "",
+            ParseClient.JSONResponseKeys.Latitude : nil,
+            ParseClient.JSONResponseKeys.Longitude : nil,
+            ParseClient.JSONResponseKeys.UniqueKey : UdacityClient.sharedInstance().userID
+        ]
+        
+        controller.theUser = ParseStudent(dictionary: dictionary)
+        
         let postNavigationController = UINavigationController()
         postNavigationController.pushViewController(controller, animated: false)
         
         dispatch_async(dispatch_get_main_queue(), {
             self.presentViewController(postNavigationController, animated: true, completion: nil)
         })
-
-        
     }
     
     

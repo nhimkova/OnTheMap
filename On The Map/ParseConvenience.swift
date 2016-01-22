@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 extension ParseClient {
     
@@ -38,7 +39,31 @@ extension ParseClient {
         task.resume()
     }
     
-    func postStudentLocation() {
+    func postStudentLocation(user: ParseStudent!, mapString: String!, completionHandler: (success: Bool, errorString: String?) -> Void ) {
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: ParseClient.Constants.BaseURLSecure)!)
+        request.HTTPMethod = "POST"
+        request.addValue(ParseClient.Constants.appID, forHTTPHeaderField: ParseClient.HTTPHeaderField.appIDHeader)
+        request.addValue(ParseClient.Constants.apiKey, forHTTPHeaderField: ParseClient.HTTPHeaderField.apiHeader)
+
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let httpbodyString = "{\"uniqueKey\": \"\(user.userID)\", \"firstName\": \"\(user.firstName)\", \"lastName\": \"\(user.lastName)\",\"mapString\": \"\(mapString)\", \"mediaURL\": \"\(user.url)\",\"latitude\": \(user.latitude!), \"longitude\": \(user.longitude!)}"
+        
+        request.HTTPBody = httpbodyString.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil { // Handle error…
+                completionHandler(success: false, errorString: "error in postStudentLocation")
+                return
+            }
+
+            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+            completionHandler(success: true, errorString: nil)
+        }
+        task.resume()
         
         
     }

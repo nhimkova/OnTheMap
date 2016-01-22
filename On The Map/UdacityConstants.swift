@@ -30,6 +30,11 @@ extension UdacityClient {
         static let Account = "account"
         static let UserID = "key"
         
+        //User data
+        static let User = "user"
+        static let LastName = "last_name"
+        static let NickName = "nickname"
+        
     }
     
     

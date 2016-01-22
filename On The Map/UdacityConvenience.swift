@@ -65,6 +65,46 @@ extension UdacityClient {
         } //end task
         task.resume()
         
-    }
+    } // end creaseSession
     
+    func getUserInfo(userID: String!, completionHandler__: (success: Bool, lastName: String?, nickName: String?, errorString: String?) -> Void) {
+        
+        let urlString = UdacityClient.Constants.BaseURLSecure + UdacityClient.Methods.Users + "/" + userID
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil { // Handle error...
+                completionHandler__(success: false, lastName: nil, nickName: nil, errorString: "error getting user info")
+                return
+            } else {
+                let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
+                
+                var parsedResult : NSDictionary?
+                do {
+                    parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments) as? NSDictionary
+                } catch {
+                    parsedResult = nil
+                    completionHandler__(success: false, lastName: nil, nickName: nil, errorString: "cannot parse data")
+                    return
+                }
+                
+                if let userData = parsedResult![UdacityClient.JSONResponseKeys.User] {
+                    if let lastName = userData[UdacityClient.JSONResponseKeys.LastName] as? String {
+                        if let nickName = userData[UdacityClient.JSONResponseKeys.NickName] as? String {
+                            completionHandler__(success: true, lastName: lastName, nickName: nickName, errorString: nil)
+                            return
+                        } // end nickName
+                    } // end lastName
+                } // end userData
+                
+                completionHandler__(success: false, lastName: nil, nickName: nil, errorString: "error in getUserInfo (JSON not consistent)")
+    
+            } //end else if no error
+        }
+        
+        task.resume()
+    }
 }

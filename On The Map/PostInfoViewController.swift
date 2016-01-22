@@ -22,7 +22,11 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
     @IBOutlet weak var bottomBackground: UILabel!
     @IBOutlet weak var locationTextField: UITextField!
     
-    var foundLocation = false
+    var myLocation : CLLocationCoordinate2D? = nil
+    
+    var session : NSURLSession!
+    
+    var theUser : ParseStudent!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,18 +39,17 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func submitButtonTouch(sender: AnyObject) {
-        if foundLocation {
-            //post location
+        if let myLocation = myLocation {
             
+            postThisLocation(myLocation)
             
         } else {
-            
             findLocationOnMap(locationTextField.text!) { (coordinate, error) in
                 if ( error != nil) {
-                    
                     self.showLocationNotFoundAlert()
-                    
                 } else {
+                    
+                    self.myLocation = coordinate //next time touching this button will post the location
                     
                     self.changeUIafterSearch(coordinate)
                     
@@ -63,6 +66,27 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
         }
     }
     
+    // This function calls the post method of ParseClient
+    func postThisLocation(location: CLLocationCoordinate2D!) {
+        
+        // Complete ParseStudent object of user
+        theUser.url = urlTextField.text!
+        theUser.latitude = Float(location.latitude)
+        theUser.longitude = Float(location.longitude)
+        
+        session = NSURLSession.sharedSession()
+        
+        ParseClient.sharedInstance().postStudentLocation(self.theUser, mapString: locationTextField.text!) { (success, errorString) in
+            if success {
+                // reload data
+                // dismiss view
+            } else {
+                //display alert
+            }
+        }
+    }
+    
+    // This function takes a string and finds the coordinate or return an error message
     func findLocationOnMap(string: String!, completionHandler: (coordinate: CLLocationCoordinate2D?, error: String?) ->  Void )  {
         
         let address = locationTextField.text!

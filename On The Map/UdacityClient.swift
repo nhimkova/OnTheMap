@@ -19,11 +19,18 @@ class UdacityClient: NSObject {
     /* Authentication state */
     var sessionID : String? = nil
     var userID : String? = nil
+    var lastName : String? = nil
+    var firstName : String? = nil
     
     // MARK: Initializers
     
     override init() {
         session = NSURLSession.sharedSession()
+        sessionID = nil
+        userID = nil
+        lastName = nil
+        firstName = nil
+        
         super.init()
     }
     
@@ -43,6 +50,7 @@ class UdacityClient: NSObject {
         
         struct Singleton {
             static var sharedInstance = UdacityClient()
+            
         }
         
         return Singleton.sharedInstance
