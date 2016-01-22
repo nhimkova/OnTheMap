@@ -20,9 +20,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView.delegate = self
+        configNavBar()
         
-        self.parentViewController!.navigationController!.navigationBar.topItem!.title = "On the map"
+        mapView.delegate = self
         
         let location = CLLocationCoordinate2D(
             latitude: 51.50007773,
@@ -33,7 +33,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         let region = MKCoordinateRegion(center: location, span: span)
         mapView.setRegion(region, animated: true)
         
-        //1. load students from parse API
+        reloadStudentLocation()
+        //reloadAnnotations()
+        
+    }
+    
+    func reloadStudentLocation() {
+        
         session = NSURLSession.sharedSession()
         
         ParseClient.sharedInstance().downloadStudentLocations() { (success, data, errorString) in
@@ -46,30 +52,32 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
                 let appDelegate = object as! AppDelegate
                 appDelegate.students = self.students
                 
-                var annotations = [MKPointAnnotation]()
+                self.reloadAnnotations()
                 
-                //3. create annotations
-                for student in self.students {
-                    
-                    let annotation = MKPointAnnotation()
-                    let lat = CLLocationDegrees(student.latitude!)
-                    let long = CLLocationDegrees(student.longitude!)
-                    annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-                    
-                    annotation.title = student.firstName + " " + student.lastName
-                    annotation.subtitle = student.url
-                    annotations.append(annotation)
-                    
-                }
-                
-                self.mapView.addAnnotations(annotations)
-
             } else {
                 print(errorString)
             }
         }
-        
     }
+    
+    func reloadAnnotations() {
+        
+        for student in self.students {
+            
+            let annotation = MKPointAnnotation()
+            let lat = CLLocationDegrees(student.latitude!)
+            let long = CLLocationDegrees(student.longitude!)
+            annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            
+            annotation.title = student.firstName + " " + student.lastName
+            annotation.subtitle = student.url
+            self.annotations.append(annotation)
+        }
+        
+        self.mapView.addAnnotations(annotations)
+    }
+    
+    // Map View Protocols
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
@@ -80,7 +88,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
-            pinView!.pinColor = .Red
+            pinView!.pinTintColor = UIColor.purpleColor()
             pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
         }
         else {
@@ -98,5 +106,34 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
             }
         }
     }
+    
+    // Nav bar configuration
+    
+    func configNavBar() {
+        
+        self.parentViewController!.navigationController!.navigationBar.topItem!.title = "On the map"
+        
+        let refreshButton =  UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: "reloadStudentLocation")
+        let postButton = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: "postInformation")
+        
+        self.parentViewController!.navigationItem.setRightBarButtonItems([postButton, refreshButton], animated: false)
+
+    }
+    
+    func postInformation() {
+        
+        /* Push the web view */
+        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("PostInfoViewController") as! PostInfoViewController
+        
+        let postNavigationController = UINavigationController()
+        postNavigationController.pushViewController(controller, animated: false)
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.presentViewController(postNavigationController, animated: true, completion: nil)
+        })
+
+        
+    }
+    
     
 }

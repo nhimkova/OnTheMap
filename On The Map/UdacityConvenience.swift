@@ -38,11 +38,20 @@ extension UdacityClient {
                 return
             } else {
                 let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
-                let parsedResult = try! NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments)
-                let sessionData = parsedResult[UdacityClient.JSONResponseKeys.Session] as! NSDictionary
-                let userData = parsedResult[UdacityClient.JSONResponseKeys.Account] as! NSDictionary
-                if let sessionID = sessionData[UdacityClient.JSONResponseKeys.SessionID] as? String {
-                    if let userID = userData[UdacityClient.JSONResponseKeys.UserID] as? String {
+                
+                var parsedResult : NSDictionary?
+                do {
+                    parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments) as? NSDictionary
+                } catch {
+                    parsedResult = nil
+                    completionHandler(success: false, sessionID: nil, userID: nil, errorString: "Cannot parse data.")
+                    return
+                }
+                
+                let sessionData = parsedResult![UdacityClient.JSONResponseKeys.Session]
+                let userData = parsedResult![UdacityClient.JSONResponseKeys.Account]
+                if let sessionID = sessionData![UdacityClient.JSONResponseKeys.SessionID] as? String {
+                    if let userID = userData![UdacityClient.JSONResponseKeys.UserID] as? String {
                         completionHandler(success: true, sessionID: sessionID, userID: userID, errorString: nil)
                     } else {
                         completionHandler(success: false, sessionID: sessionID, userID: nil, errorString: "error createSession (User ID)")
@@ -50,8 +59,8 @@ extension UdacityClient {
                 } else {
                     completionHandler(success: false, sessionID: nil, userID: nil, errorString: "error createSession (Session ID)")
                 }
+                }
             }
-        }
         task.resume()
         
     }

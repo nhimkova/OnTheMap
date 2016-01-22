@@ -62,11 +62,15 @@ class LoginViewController: UIViewController {
     }
     
     func displayErrorMessage(errorString: String?) {
-       //TODO: display error message
+       self.errorMessageLabel.text = errorString
     }
     
     func configureUI() {
         //TODO: configure UI
+        
+        emailTextField.layer.borderWidth = 0
+        passwordTextField.layer.borderWidth = 0
+        
     }
 
 }
