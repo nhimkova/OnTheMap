@@ -36,22 +36,50 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
     
     @IBAction func submitButtonTouch(sender: AnyObject) {
         if foundLocation {
+            //post location
             
-            //post
             
         } else {
             
-            //init mapview
-            
-            findLocationOnMap(locationTextField.text!)
-            
-            changeUIafterSearch()
+            findLocationOnMap(locationTextField.text!) { (coordinate, error) in
+                if ( error != nil) {
+                    
+                    self.showLocationNotFoundAlert()
+                    
+                } else {
+                    
+                    self.changeUIafterSearch(coordinate)
+                    
+                    // Add pin on map
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = coordinate!
+                    annotation.title = "I am here!"
+                    
+                    self.mapView.addAnnotation(annotation)
+                    
+                }
+                
+            }
         }
     }
     
-    func findLocationOnMap(string: String!) {
+    func findLocationOnMap(string: String!, completionHandler: (coordinate: CLLocationCoordinate2D?, error: String?) ->  Void )  {
         
+        let address = locationTextField.text!
         
+        let geocoder = CLGeocoder()
+        
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            if((error) != nil){
+                completionHandler(coordinate: nil, error: "error in geocoding" )
+
+            } else {
+                if let placemark = placemarks?.first {
+                    let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
+                    completionHandler(coordinate: coordinates, error: nil )
+                }
+            }
+        }
     }
     
     // UI setup and changes
@@ -64,14 +92,9 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
         submitButton.setTitle("Find on the map", forState: UIControlState.Normal)
     }
     
-    func changeUIafterSearch() {
+    func changeUIafterSearch(location: CLLocationCoordinate2D!) {
         
         mapView.hidden = false
-        
-        let location = CLLocationCoordinate2D(
-            latitude: 51.50007773,
-            longitude: -0.1246402
-        )
         
         let span = MKCoordinateSpanMake(0.05, 0.05)
         let region = MKCoordinateRegion(center: location, span: span)
@@ -89,6 +112,14 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
         whereAreYou.hidden = true
         studying.hidden = true
         today.hidden = true
+    }
+    
+    func showLocationNotFoundAlert() {
+        let alertController = UIAlertController(title: "Error", message:
+            "Location Not Found!", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func cancel() {

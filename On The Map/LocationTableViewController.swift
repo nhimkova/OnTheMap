@@ -49,17 +49,10 @@ class LocationTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        /* Push the web view */
-        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
-        controller.student = students[indexPath.row]
-        //self.navigationController!.pushViewController(controller, animated: true)
+        let app = UIApplication.sharedApplication()
+        let toOpen = students[indexPath.row].url
+        app.openURL(NSURL(string: toOpen)!)
         
-        let webNavigationController = UINavigationController()
-        webNavigationController.pushViewController(controller, animated: false)
-        
-        dispatch_async(dispatch_get_main_queue(), {
-            self.presentViewController(webNavigationController, animated: true, completion: nil)
-        })
         
     }
     
