@@ -48,19 +48,21 @@ extension UdacityClient {
                     return
                 }
                 
-                let sessionData = parsedResult![UdacityClient.JSONResponseKeys.Session]
-                let userData = parsedResult![UdacityClient.JSONResponseKeys.Account]
-                if let sessionID = sessionData![UdacityClient.JSONResponseKeys.SessionID] as? String {
-                    if let userID = userData![UdacityClient.JSONResponseKeys.UserID] as? String {
-                        completionHandler(success: true, sessionID: sessionID, userID: userID, errorString: nil)
-                    } else {
-                        completionHandler(success: false, sessionID: sessionID, userID: nil, errorString: "error createSession (User ID)")
-                    }
-                } else {
-                    completionHandler(success: false, sessionID: nil, userID: nil, errorString: "error createSession (Session ID)")
-                }
-                }
-            }
+                if let sessionData = parsedResult![UdacityClient.JSONResponseKeys.Session] {
+                    if let userData = parsedResult![UdacityClient.JSONResponseKeys.Account] {
+                        if let sessionID = sessionData[UdacityClient.JSONResponseKeys.SessionID] as? String {
+                            if let userID = userData[UdacityClient.JSONResponseKeys.UserID] as? String {
+                                completionHandler(success: true, sessionID: sessionID, userID: userID, errorString: nil)
+                                return
+                            } //end userID
+                        } //end sessionID
+                    } //end userData
+                } //end sessionData
+                
+                completionHandler(success: false, sessionID: nil, userID: nil, errorString: "error createSession (JSON not consistent)")
+                
+            } //end else error nil
+        } //end task
         task.resume()
         
     }

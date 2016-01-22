@@ -62,7 +62,7 @@ class LoginViewController: UIViewController {
     }
     
     func displayErrorMessage(errorString: String?) {
-       self.errorMessageLabel.text = errorString
+       self.errorMessageLabel.text = "Failed to log in"
     }
     
     func configureUI() {
