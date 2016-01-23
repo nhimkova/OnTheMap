@@ -75,13 +75,15 @@ class LoginViewController: UIViewController {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("ManagerNavigationController") as! UINavigationController
             self.presentViewController(controller, animated: true, completion: nil)
         })
-
     }
     
     func displayErrorMessage(errorString: String?) {
         
         print(errorString)
-        self.errorMessageLabel.text = "Failed to log in"
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.errorMessageLabel.text = "Failed to log in"
+        })
     }
     
     func configureUI() {
@@ -115,6 +117,20 @@ class LoginViewController: UIViewController {
         passwordTextField.tintColor = UIColor(red: 0.0, green:0.502, blue:0.839, alpha: 1.0)
         
     }
+    
+    // Textfield config
+    
+    // Dismisses the keyboard when you press return (the bottom right key)
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // Detects when a user touches the screen and tells the keyboard to disappear when that happens
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
 
 }
 

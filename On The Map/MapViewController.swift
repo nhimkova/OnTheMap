@@ -42,7 +42,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         
         tab?.reloadStudentLocation() { (success) in
             if success {
-                self.refreshMap()
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.refreshMap()
+                })
             }
         }
     
@@ -53,8 +55,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
         self.students = appDelegate.students
-        
-        print(appDelegate.students.count)
         
         //delete old ones
         if self.annotations.count != 0 {
@@ -75,6 +75,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         }
         
         self.mapView.addAnnotations(self.annotations)
+        print("annotations reloaded")
     }
     
     // Map View Protocols

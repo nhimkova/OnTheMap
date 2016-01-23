@@ -74,6 +74,8 @@ class TabNavigationViewController : UITabBarController {
 
                 appDelegate.students = students
                 
+                print("Student data successfully loaded.")
+                
                 completionHandler(success: true)
                 
             } else {

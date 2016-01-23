@@ -22,9 +22,10 @@ class LocationTableViewController: UITableViewController {
         let tab = self.tabBarController as? TabNavigationViewController
         
         tab?.reloadStudentLocation() { (success) in
-            
             if success {
-                self.refreshTable()
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.refreshTable()
+                })
             }
         }
     }
@@ -32,6 +33,8 @@ class LocationTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+    
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,6 +80,7 @@ class LocationTableViewController: UITableViewController {
         self.students = appDelegate.students
         
         tableView.reloadData()
+        print("table reloaded")
     }
 
     

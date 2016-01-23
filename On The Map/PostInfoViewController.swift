@@ -36,6 +36,11 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         
         activityView.hidden = true
+        activityView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        activityView.color = UIColor.blackColor()
+        activityView.center = self.view.center
+        mapView.addSubview(self.activityView)
+        mapView.bringSubviewToFront(self.activityView)
         
         prepareUI()
         
@@ -43,44 +48,41 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func submitButtonTouch(sender: AnyObject) {
+        
         if let myLocation = myLocation {
             
             postThisLocation(myLocation)
             
         } else {
             
-            //activity indicator
-            self.activityView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-            self.activityView.hidden = false
-            self.activityView.center = self.view.center
-            self.activityView.startAnimating()
-            self.mapView.addSubview(activityView)
-            self.mapView.bringSubviewToFront(activityView)
+                self.findLocationOnMap(self.locationTextField.text!) { (coordinate, error) in
+                    if ( error != nil) {
+                        self.displayAlert("Error", message: "Location Not Found")
+                        
+                    } else {
+                        
+                        self.myLocation = coordinate //next time touching this button will post the location
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            
+                                self.changeUIafterSearch(coordinate)
+                            
+                                // Add pin on map
+                                let annotation = MKPointAnnotation()
+                                annotation.coordinate = coordinate!
+                                annotation.title = "I am here!"
+                                
+                                self.mapView.addAnnotation(annotation)
+                            
+                            }) // end dispatch
+                        
+                    } // end else if no error
+                    
+                } // end findLocationOnMap
             
-            findLocationOnMap(locationTextField.text!) { (coordinate, error) in
-                if ( error != nil) {
-                    self.displayAlert("Error", message: "Location Not Found")
-                } else {
-                    
-                    self.myLocation = coordinate //next time touching this button will post the location
-                    
-                    self.changeUIafterSearch(coordinate)
-                    
-                    // Add pin on map
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = coordinate!
-                    annotation.title = "I am here!"
-                    
-                    self.mapView.addAnnotation(annotation)
-                    
-                }
-                
-            }
-            
-            //stop animation
-            //activityView.stopAnimating()
-        }
-    }
+        } //end else if empty mylocation
+        
+    } // end submitButtonTouch
     
     // This function calls the post method of ParseClient
     func postThisLocation(location: CLLocationCoordinate2D!) {
@@ -94,9 +96,11 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
         
         ParseClient.sharedInstance().postStudentLocation(self.theUser, mapString: locationTextField.text!) { (success, errorString) in
             if success {
-                // reload data
+                
                 self.cancel()
+                
             } else {
+                
                 self.displayAlert("Error", message: "Posting Not Successful")
             }
         }
@@ -105,21 +109,34 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
     // This function takes a string and finds the coordinate or return an error message
     func findLocationOnMap(string: String!, completionHandler: (coordinate: CLLocationCoordinate2D?, error: String?) ->  Void )  {
         
+        
+        self.activityView.hidden = false
+        
+        self.activityView.startAnimating()
+        print("starting activity indicator")
+        
+        
         let address = locationTextField.text!
         
         let geocoder = CLGeocoder()
         
-        geocoder.geocodeAddressString(address) { (placemarks, error) in
-            if((error) != nil){
-                completionHandler(coordinate: nil, error: "error in geocoding" )
+        
+            geocoder.geocodeAddressString(address) { (placemarks, error) in
+                if((error) != nil){
+                    completionHandler(coordinate: nil, error: "error in geocoding" )
 
-            } else {
-                if let placemark = placemarks?.first {
-                    let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
-                    completionHandler(coordinate: coordinates, error: nil )
+                } else {
+                    if let placemark = placemarks?.first {
+                        let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
+                        
+                        completionHandler(coordinate: coordinates, error: nil )
+                    }
                 }
+                
+                print("stopping activity indicator")
+                self.activityView.hidden = true
+                self.activityView.stopAnimating()
             }
-        }
     }
     
     // UI setup and changes
@@ -165,6 +182,18 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
     func cancel() {
         
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // Textfield config
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // Detects when a user touches the screen and tells the keyboard to disappear when that happens
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        view.endEditing(true)
     }
     
 }
