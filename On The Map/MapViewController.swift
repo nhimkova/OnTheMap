@@ -22,8 +22,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configNavBar()
-        
         mapView.delegate = self
         
         let location = CLLocationCoordinate2D(
@@ -35,35 +33,35 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         let region = MKCoordinateRegion(center: location, span: span)
         mapView.setRegion(region, animated: true)
         
-        reloadStudentLocation()
-                
-        
     }
     
-    func reloadStudentLocation() {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        session = NSURLSession.sharedSession()
+        let tab = self.tabBarController as? TabNavigationViewController
         
-        ParseClient.sharedInstance().downloadStudentLocations() { (success, data, errorString) in
-            
+        tab?.reloadStudentLocation() { (success) in
             if success {
-                self.students = ParseStudent.studentsFromResults(data!)
-                
-                //2. Save as global variable
-                let object = UIApplication.sharedApplication().delegate
-                let appDelegate = object as! AppDelegate
-                appDelegate.students = self.students
-                
-                self.reloadAnnotations()
-                
-            } else {
-                print(errorString)
+                self.refreshMap()
             }
         }
+    
     }
     
-    func reloadAnnotations() {
+    func refreshMap() {
         
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        self.students = appDelegate.students
+        
+        print(appDelegate.students.count)
+        
+        //delete old ones
+        if self.annotations.count != 0 {
+            self.mapView.removeAnnotations(self.annotations)
+        }
+        
+        //add new ones
         for student in self.students {
             
             let annotation = MKPointAnnotation()
@@ -76,7 +74,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
             self.annotations.append(annotation)
         }
         
-        self.mapView.addAnnotations(annotations)
+        self.mapView.addAnnotations(self.annotations)
     }
     
     // Map View Protocols
@@ -105,47 +103,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
             let app = UIApplication.sharedApplication()
             if let toOpen = view.annotation?.subtitle! {
                 app.openURL(NSURL(string: toOpen)!)
+            } else {
+                self.displayAlert("Error", message: "Could Not Open URL")
             }
         }
     }
     
-    // Nav bar configuration
-    
-    func configNavBar() {
+    func displayAlert(title: String!, message: String!) {
+        let alertController = UIAlertController(title: title, message:
+            message, preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
         
-        self.parentViewController!.navigationController!.navigationBar.topItem!.title = "On the map"
-        
-        let refreshButton =  UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: "reloadStudentLocation")
-        let postButton = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: "postInformation")
-        
-        self.parentViewController!.navigationItem.setRightBarButtonItems([postButton, refreshButton], animated: false)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
 
-    }
-    
-    func postInformation() {
-        
-        /* Push the web view */
-        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("PostInfoViewController") as! PostInfoViewController
-        
-        // Prepare ParseStudent object
-        let dictionary : [String: AnyObject?] = [
-            ParseClient.JSONResponseKeys.FirstName : UdacityClient.sharedInstance().firstName,
-            ParseClient.JSONResponseKeys.LastName : UdacityClient.sharedInstance().lastName,
-            ParseClient.JSONResponseKeys.MediaURL : "",
-            ParseClient.JSONResponseKeys.Latitude : nil,
-            ParseClient.JSONResponseKeys.Longitude : nil,
-            ParseClient.JSONResponseKeys.UniqueKey : UdacityClient.sharedInstance().userID
-        ]
-        
-        controller.theUser = ParseStudent(dictionary: dictionary)
-        
-        let postNavigationController = UINavigationController()
-        postNavigationController.pushViewController(controller, animated: false)
-        
-        dispatch_async(dispatch_get_main_queue(), {
-            self.presentViewController(postNavigationController, animated: true, completion: nil)
-        })
-    }
-    
-    
 }

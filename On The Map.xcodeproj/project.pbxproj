@@ -25,6 +25,7 @@
 		08CF9A551C4F9DF500509669 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CF9A541C4F9DF500509669 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		08CF9A571C4F9E0B00509669 /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CF9A561C4F9E0B00509669 /* LocationTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		08D0EEC61C5184470090ECF8 /* PostInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0EEC51C5184470090ECF8 /* PostInfoViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		08D0EEC81C52AE5A0090ECF8 /* TabNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0EEC71C52AE5A0090ECF8 /* TabNavigationViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		08CF9A541C4F9DF500509669 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		08CF9A561C4F9E0B00509669 /* LocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
 		08D0EEC51C5184470090ECF8 /* PostInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostInfoViewController.swift; sourceTree = "<group>"; };
+		08D0EEC71C52AE5A0090ECF8 /* TabNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 				08CF9A561C4F9E0B00509669 /* LocationTableViewController.swift */,
 				08B071741C512026002D8C23 /* WebViewController.swift */,
 				08D0EEC51C5184470090ECF8 /* PostInfoViewController.swift */,
+				08D0EEC71C52AE5A0090ECF8 /* TabNavigationViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				08CF9A251C4F8F1900509669 /* AppDelegate.swift in Sources */,
 				08B0716F1C50ED1B002D8C23 /* ParseConvenience.swift in Sources */,
 				08B0716D1C50ED0B002D8C23 /* ParseConstants.swift in Sources */,
+				08D0EEC81C52AE5A0090ECF8 /* TabNavigationViewController.swift in Sources */,
 				08B071751C512026002D8C23 /* WebViewController.swift in Sources */,
 				08B071691C4FC974002D8C23 /* UdacityConvenience.swift in Sources */,
 				08B0716B1C50ECFD002D8C23 /* ParseClient.swift in Sources */,

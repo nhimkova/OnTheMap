@@ -19,6 +19,8 @@ class LoginViewController: UIViewController {
     
     var session: NSURLSession!
     
+    var backgroundGradient: CAGradientLayer? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,10 +85,34 @@ class LoginViewController: UIViewController {
     }
     
     func configureUI() {
-        //TODO: configure UI
         
-        emailTextField.layer.borderWidth = 0
-        passwordTextField.layer.borderWidth = 0
+        /* Configure background gradient */
+        self.view.backgroundColor = UIColor.clearColor()
+        let colorTop = UIColor(red: 242/255, green: 123/255, blue: 28/255, alpha: 1.0).CGColor
+        let colorBottom = UIColor(red: 242/255, green: 152/255, blue: 28/255, alpha: 1.0).CGColor
+        self.backgroundGradient = CAGradientLayer()
+        self.backgroundGradient!.colors = [colorTop, colorBottom]
+        self.backgroundGradient!.locations = [0.0, 1.0]
+        self.backgroundGradient!.frame = view.frame
+        self.view.layer.insertSublayer(self.backgroundGradient!, atIndex: 0)
+        
+        //emailTextField
+        let emailTextFieldPaddingViewFrame = CGRectMake(0.0, 0.0, 13.0, 0.0);
+        let emailTextFieldPaddingView = UIView(frame: emailTextFieldPaddingViewFrame)
+        emailTextField.leftView = emailTextFieldPaddingView
+        emailTextField.leftViewMode = .Always
+        emailTextField.textColor = UIColor(red: 0.0, green:0.502, blue:0.839, alpha: 1.0)
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        emailTextField.tintColor = UIColor(red: 0.0, green:0.502, blue:0.839, alpha: 1.0)
+        
+        //passwordTextField
+        let passwordTextFieldPaddingViewFrame = CGRectMake(0.0, 0.0, 13.0, 0.0);
+        let passwordTextFieldPaddingView = UIView(frame: passwordTextFieldPaddingViewFrame)
+        passwordTextField.leftView = passwordTextFieldPaddingView
+        passwordTextField.leftViewMode = .Always
+        passwordTextField.textColor = UIColor(red: 0.0, green:0.502, blue:0.839, alpha: 1.0)
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        passwordTextField.tintColor = UIColor(red: 0.0, green:0.502, blue:0.839, alpha: 1.0)
         
     }
 

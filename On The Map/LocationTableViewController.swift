@@ -12,17 +12,21 @@ import UIKit
 class LocationTableViewController: UITableViewController {
     
     var students = [ParseStudent]()
+    var session : NSURLSession!
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let object = UIApplication.sharedApplication().delegate
-        let appDelegate = object as! AppDelegate
-        students = appDelegate.students
-        tableView.reloadData()
-        
         tabBarController?.tabBar.hidden = false
         
+        let tab = self.tabBarController as? TabNavigationViewController
+        
+        tab?.reloadStudentLocation() { (success) in
+            
+            if success {
+                self.refreshTable()
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -54,9 +58,27 @@ class LocationTableViewController: UITableViewController {
         if let url = NSURL(string: toOpen) {
             app.openURL(url)
         } else {
-            //display error
+            displayAlert("Error", message: "Could not open URL")
         }
     }
+    
+    func displayAlert(title: String!, message: String!) {
+        let alertController = UIAlertController(title: title, message:
+            message, preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func refreshTable() {
+        
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        self.students = appDelegate.students
+        
+        tableView.reloadData()
+    }
+
     
 }
 

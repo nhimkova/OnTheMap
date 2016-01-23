@@ -9,7 +9,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LoginViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C09-vF-JeH">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C09-vF-JeH">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
@@ -41,7 +41,7 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8PL-vg-u1n">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8PL-vg-u1n">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
@@ -514,7 +514,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="d34-lP-4Z8" secondAttribute="trailing" constant="-20" id="b5K-Jl-51B"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ITa-R7-Qip" secondAttribute="trailing" constant="-20" id="cNM-Dk-ohK"/>
                             <constraint firstItem="hSo-FO-3BW" firstAttribute="top" secondItem="d34-lP-4Z8" secondAttribute="bottom" id="eRI-Au-Zqh"/>
-                            <constraint firstItem="EzB-AD-rrN" firstAttribute="top" secondItem="CZ9-mE-nsi" secondAttribute="bottom" constant="27" id="ev3-cm-xqk"/>
+                            <constraint firstItem="EzB-AD-rrN" firstAttribute="top" secondItem="CZ9-mE-nsi" secondAttribute="bottom" constant="20" id="ev3-cm-xqk"/>
                             <constraint firstItem="IZI-Cs-8Nv" firstAttribute="top" secondItem="VDe-OE-EiX" secondAttribute="topMargin" id="neT-pr-uh5"/>
                             <constraint firstItem="EzB-AD-rrN" firstAttribute="centerX" secondItem="VDe-OE-EiX" secondAttribute="centerX" id="pDc-GT-WYg"/>
                             <constraint firstItem="IZI-Cs-8Nv" firstAttribute="leading" secondItem="VDe-OE-EiX" secondAttribute="leadingMargin" constant="-20" id="qJI-mT-ofq"/>
@@ -733,7 +733,7 @@
         <!--Manager Tab-->
         <scene sceneID="3kr-BQ-OAK">
             <objects>
-                <tabBarController id="SV1-Ec-9rP" userLabel="Manager Tab" sceneMemberID="viewController">
+                <tabBarController id="SV1-Ec-9rP" userLabel="Manager Tab" customClass="TabNavigationViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Qmp-Bj-58f"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="Zcn-Nu-VM7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>

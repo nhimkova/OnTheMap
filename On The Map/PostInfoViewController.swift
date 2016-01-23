@@ -22,6 +22,8 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
     @IBOutlet weak var bottomBackground: UILabel!
     @IBOutlet weak var locationTextField: UITextField!
     
+    var activityView = UIActivityIndicatorView()
+    
     var myLocation : CLLocationCoordinate2D? = nil
     
     var session : NSURLSession!
@@ -32,6 +34,8 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         mapView.delegate = self
+        
+        activityView.hidden = true
         
         prepareUI()
         
@@ -44,9 +48,18 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
             postThisLocation(myLocation)
             
         } else {
+            
+            //activity indicator
+            self.activityView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+            self.activityView.hidden = false
+            self.activityView.center = self.view.center
+            self.activityView.startAnimating()
+            self.mapView.addSubview(activityView)
+            self.mapView.bringSubviewToFront(activityView)
+            
             findLocationOnMap(locationTextField.text!) { (coordinate, error) in
                 if ( error != nil) {
-                    self.showLocationNotFoundAlert()
+                    self.displayAlert("Error", message: "Location Not Found")
                 } else {
                     
                     self.myLocation = coordinate //next time touching this button will post the location
@@ -63,6 +76,9 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
                 }
                 
             }
+            
+            //stop animation
+            //activityView.stopAnimating()
         }
     }
     
@@ -79,9 +95,9 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
         ParseClient.sharedInstance().postStudentLocation(self.theUser, mapString: locationTextField.text!) { (success, errorString) in
             if success {
                 // reload data
-                // dismiss view
+                self.cancel()
             } else {
-                //display alert
+                self.displayAlert("Error", message: "Posting Not Successful")
             }
         }
     }
@@ -138,15 +154,16 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
         today.hidden = true
     }
     
-    func showLocationNotFoundAlert() {
-        let alertController = UIAlertController(title: "Error", message:
-            "Location Not Found!", preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+    func displayAlert(title: String!, message: String!) {
+        let alertController = UIAlertController(title: title, message:
+            message, preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
         
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func cancel() {
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
