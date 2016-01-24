@@ -11,7 +11,6 @@ import UIKit
 
 class LocationTableViewController: UITableViewController {
     
-    var students = [ParseStudent]()
     var session : NSURLSession!
     
     override func viewWillAppear(animated: Bool) {
@@ -39,17 +38,25 @@ class LocationTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return self.students.count
+        if let students = Parse.students {
+            return students.count
+        } else {
+            return 0
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("StudentLocationCell")!
-        let student = self.students[indexPath.row]
         
-        // Set the name and image
-        cell.textLabel?.text = student.firstName + " " + student.lastName
-        cell.detailTextLabel!.text = student.url
+        if let students = Parse.students {
+            
+            let student = students[indexPath.row]
+        
+            // Set the name and image
+            cell.textLabel?.text = student.firstName + " " + student.lastName
+            cell.detailTextLabel!.text = student.url
+        }
         
         return cell
     }
@@ -57,11 +64,13 @@ class LocationTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let app = UIApplication.sharedApplication()
-        let toOpen = students[indexPath.row].url
-        if let url = NSURL(string: toOpen) {
-            app.openURL(url)
-        } else {
-            displayAlert("Error", message: "Could not open URL")
+        if let students = Parse.students {
+            let toOpen = students[indexPath.row].url
+            if let url = NSURL(string: toOpen) {
+                app.openURL(url)
+            } else {
+                displayAlert("Error", message: "Could not open URL")
+            }
         }
     }
     
@@ -74,11 +83,7 @@ class LocationTableViewController: UITableViewController {
     }
     
     func refreshTable() {
-        
-        let object = UIApplication.sharedApplication().delegate
-        let appDelegate = object as! AppDelegate
-        self.students = appDelegate.students
-        
+
         tableView.reloadData()
         print("table reloaded")
     }

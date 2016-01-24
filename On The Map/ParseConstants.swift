@@ -36,5 +36,12 @@ extension ParseClient {
         
     }
     
+    struct parameterKeys {
+        
+        static let Limit = "limit"
+        static let Order = "order"
+        static let Skip = "skip"
+    }
+    
     
 }

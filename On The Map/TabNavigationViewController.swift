@@ -67,12 +67,10 @@ class TabNavigationViewController : UITabBarController {
             if success {
                 
                 // Save student data as global variable
-                let object = UIApplication.sharedApplication().delegate
-                let appDelegate = object as! AppDelegate
                 
                 let students = ParseStudent.studentsFromResults(data!)
 
-                appDelegate.students = students
+                Parse.students = students
                 
                 print("Student data successfully loaded.")
                 

@@ -73,8 +73,10 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
                                 annotation.title = "I am here!"
                                 
                                 self.mapView.addAnnotation(annotation)
-                            
+                                
                             }) // end dispatch
+                        
+                        
                         
                     } // end else if no error
                     
@@ -132,10 +134,6 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
                         completionHandler(coordinate: coordinates, error: nil )
                     }
                 }
-                
-                print("stopping activity indicator")
-                self.activityView.hidden = true
-                self.activityView.stopAnimating()
             }
     }
     
@@ -194,6 +192,12 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
     // Detects when a user touches the screen and tells the keyboard to disappear when that happens
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
+    }
+    
+    func mapViewDidFinishRenderingMap(mapView: MKMapView, fullyRendered: Bool) {
+        print("stopping activity indicator")
+        self.activityView.hidden = true
+        self.activityView.stopAnimating()
     }
     
 }

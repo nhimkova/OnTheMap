@@ -34,7 +34,7 @@ extension UdacityClient {
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             if error != nil {
-                completionHandler(success: false, sessionID: nil, userID: nil, errorString: "error in createSession")
+                completionHandler(success: false, sessionID: nil, userID: nil, errorString: "Connection Failure")
                 return
             } else {
                 let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
@@ -44,7 +44,7 @@ extension UdacityClient {
                     parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments) as? NSDictionary
                 } catch {
                     parsedResult = nil
-                    completionHandler(success: false, sessionID: nil, userID: nil, errorString: "Cannot parse data.")
+                    completionHandler(success: false, sessionID: nil, userID: nil, errorString: "Wrong Email Or Password")
                     return
                 }
                 
@@ -59,7 +59,7 @@ extension UdacityClient {
                     } //end userData
                 } //end sessionData
                 
-                completionHandler(success: false, sessionID: nil, userID: nil, errorString: "error createSession (JSON not consistent)")
+                completionHandler(success: false, sessionID: nil, userID: nil, errorString: "Wrong Email Or Password")
                 
             } //end else error nil
         } //end task

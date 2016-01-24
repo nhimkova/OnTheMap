@@ -14,7 +14,15 @@ extension ParseClient {
     
     func downloadStudentLocations(completionHandler: (success: Bool, data: [[String : AnyObject]]?, errorString: String?) -> Void) {
         
-        let request = NSMutableURLRequest(URL: NSURL(string: ParseClient.Constants.BaseURLSecure)!)
+        let methodArguments : [String : AnyObject] = [
+            parameterKeys.Limit : 100,
+            parameterKeys.Order : "-" + JSONResponseKeys.UpdatedAt
+        ]
+        
+        let urlString = ParseClient.Constants.BaseURLSecure + ParseClient.escapedParameters(methodArguments)
+        let url = NSURL(string: urlString)
+        
+        let request = NSMutableURLRequest(URL: url!)
         request.addValue(ParseClient.Constants.appID, forHTTPHeaderField: ParseClient.HTTPHeaderField.appIDHeader)
         request.addValue(ParseClient.Constants.apiKey, forHTTPHeaderField: ParseClient.HTTPHeaderField.apiHeader)
         
@@ -27,11 +35,18 @@ extension ParseClient {
                 var parsedResult: AnyObject?
                 do {
                     parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSDictionary
-                    let newData = parsedResult!["results"] as! [[String : AnyObject]]
-                    
-                    completionHandler(success: true, data: newData, errorString: "")
                 } catch {
                     completionHandler(success: false, data: nil, errorString: "Could not parse the data as JSON: downloadStudentLocations")
+                    return
+                }
+                
+                if let newData = parsedResult!["results"] as? [[String : AnyObject]] {
+                    
+                    print(newData)
+                    
+                    completionHandler(success: true, data: newData, errorString: "")
+                } else {
+                    completionHandler(success: false, data: nil, errorString: "No result in JSON")
                 }
             }
         }

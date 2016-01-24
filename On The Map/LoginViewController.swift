@@ -15,7 +15,6 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
-    @IBOutlet weak var errorMessageLabel: UILabel!
     
     var session: NSURLSession!
     
@@ -34,15 +33,14 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.errorMessageLabel.text = ""
     }
 
 
     @IBAction func loginButtonTouch(sender: AnyObject) {
         if emailTextField.text!.isEmpty {
-            errorMessageLabel.text = "Username Empty."
+            displayAlert("Error", message: "Empty Email")
         } else if passwordTextField.text!.isEmpty {
-            errorMessageLabel.text = "Password Empty."
+            displayAlert("Error", message: "Empty Password")
         } else {
             UdacityClient.sharedInstance().authenticateWithViewController(emailTextField.text!, password: passwordTextField.text!) { (success, errorString) in
                 if success {
@@ -56,7 +54,6 @@ class LoginViewController: UIViewController {
     
     func completeLogin() {
         dispatch_async(dispatch_get_main_queue(), {
-            self.errorMessageLabel.text = ""
             
             //get user info and save it in client
             let userID = UdacityClient.sharedInstance().userID
@@ -77,12 +74,19 @@ class LoginViewController: UIViewController {
         })
     }
     
+    func displayAlert(title: String!, message: String!) {
+        
+        let alertController = UIAlertController(title: title, message:
+            message, preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
     func displayErrorMessage(errorString: String?) {
         
-        print(errorString)
-        
         dispatch_async(dispatch_get_main_queue(), {
-            self.errorMessageLabel.text = "Failed to log in"
+            self.displayAlert("Failed To Login", message: errorString)
         })
     }
     

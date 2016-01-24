@@ -13,7 +13,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
     
     @IBOutlet weak var mapView: MKMapView!
     
-    var students = [ParseStudent]()
     var annotations = [MKPointAnnotation]()
     var session: NSURLSession!
     
@@ -51,10 +50,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
     }
     
     func refreshMap() {
-        
-        let object = UIApplication.sharedApplication().delegate
-        let appDelegate = object as! AppDelegate
-        self.students = appDelegate.students
+
         
         //delete old ones
         if self.annotations.count != 0 {
@@ -62,7 +58,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         }
         
         //add new ones
-        for student in self.students {
+        let students = Parse.students
+        
+        for student in students! {
             
             let annotation = MKPointAnnotation()
             let lat = CLLocationDegrees(student.latitude!)

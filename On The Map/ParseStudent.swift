@@ -36,3 +36,9 @@ struct ParseStudent {
     }
 
 }
+
+struct Parse {
+    
+    static var students : [ParseStudent]?
+    
+}
