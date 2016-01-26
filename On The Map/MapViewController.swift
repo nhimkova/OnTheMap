@@ -87,7 +87,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UINavigationBarDel
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
-            pinView!.pinTintColor = UIColor.purpleColor()
+            if #available(iOS 9.0, *) {
+                pinView!.pinTintColor = UIColor.purpleColor()
+            } else {
+                // Fallback on earlier versions
+            }
             pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
         }
         else {

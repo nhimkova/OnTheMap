@@ -21,8 +21,10 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var bottomBackground: UILabel!
     @IBOutlet weak var locationTextField: UITextField!
+
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
-    var activityView = UIActivityIndicatorView()
+    //var activityView = UIActivityIndicatorView()
     
     var myLocation : CLLocationCoordinate2D? = nil
     
@@ -36,11 +38,11 @@ class PostInfoViewController : UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         
         activityView.hidden = true
-        activityView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
         activityView.color = UIColor.blackColor()
         activityView.center = self.view.center
-        mapView.addSubview(self.activityView)
-        mapView.bringSubviewToFront(self.activityView)
+        
+        //mapView.addSubview(self.activityView)
+        //mapView.bringSubviewToFront(self.activityView)
         
         prepareUI()
         

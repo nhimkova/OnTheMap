@@ -42,9 +42,8 @@ extension ParseClient {
                 
                 if let newData = parsedResult!["results"] as? [[String : AnyObject]] {
                     
-                    print(newData)
-                    
                     completionHandler(success: true, data: newData, errorString: "")
+                    
                 } else {
                     completionHandler(success: false, data: nil, errorString: "No result in JSON")
                 }
